@@ -13,15 +13,12 @@ permalink: /blog/:year/:title/
 paginate_path: /blog/page:num/
 
 # Social media links in footer
-twitter: "#"
-linkedin: "#"
-stackoverflow: "#"
-github: "#"
+twitter: "thomas_hensel"
+linkedin: "thomas-arne-hensel"
+#stackoverflow: "#"
+github: "t-a-hensel"
 researchgate: "#"
-orcid: "#"
-quora: "#"
-instagram: "#"
-facebook: "#"
+orcid: "0000-0002-7497-3329"
 
 
 # Markdown
