@@ -29,7 +29,8 @@ def convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir):
     changed_notebooks = get_changed_notebooks()
     
     for notebook in changed_notebooks:
-        notebook_path = os.path.join(notebook_dir, notebook)
+        relative_path = os.path.relpath(notebook, notebook_dir)
+        notebook_path = os.path.join(notebook_dir, relative_path)
         if os.path.exists(notebook_path):
             subprocess.run([
                 "jupyter", "nbconvert", "--to", "markdown", "--execute", 
