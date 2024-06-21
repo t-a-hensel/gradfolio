@@ -32,13 +32,15 @@ def move_converted_files(converted_notebooks_dir, posts_dir):
     for item in os.listdir(converted_notebooks_dir):
         source = os.path.join(converted_notebooks_dir, item)
         destination = os.path.join(posts_dir, item)
+        if os.path.exists(destination):
+            shutil.rmtree(destination)
         shutil.move(source, destination)
 
 # Step 4: Commit and push changes to GitHub Pages repository
 def update_github_pages_repo(github_repo_dir):
     subprocess.run(["git", "add", "."], cwd=github_repo_dir)
     subprocess.run(["git", "commit", "-m", "Add converted Jupyter notebooks as markdown"], cwd=github_repo_dir)
-    subprocess.run(["git", "push", "origin", "main"], cwd=github_repo_dir)
+    subprocess.run(["git", "push", "origin", "kepler"], cwd=github_repo_dir)
 
 # Main script
 current_dir = os.getcwd()
@@ -48,6 +50,6 @@ converted_notebooks_dir = os.path.join(github_repo_dir, "_src/notebooks/converte
 
 markdown_dir = os.path.join(github_repo_dir, "_posts")
 
-convert_notebooks_to_markdown(notebook_dir,converted_notebooks_dir)
+#convert_notebooks_to_markdown(notebook_dir,converted_notebooks_dir)
 move_converted_files(converted_notebooks_dir, markdown_dir)
 update_github_pages_repo(github_repo_dir)
