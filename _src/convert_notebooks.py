@@ -12,17 +12,31 @@ def find_git_root(path):
     return path
 
 # Step 2: Convert Jupyter notebooks to Markdown (with execution)
+def get_changed_notebooks():
+    # Get the list of files changed since the last commit
+    result = subprocess.run(['git', 'diff', '--name-only', 'HEAD'], stdout=subprocess.PIPE)
+    changed_files = result.stdout.decode('utf-8').splitlines()
+    
+    # Filter to include only Jupyter notebooks
+    changed_notebooks = [f for f in changed_files if f.endswith('.ipynb')]
+    return changed_notebooks
+
 def convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir):
     if not os.path.exists(converted_notebooks_dir):
         os.makedirs(converted_notebooks_dir)
     
-    notebooks = [f for f in os.listdir(notebook_dir) if f.endswith('.ipynb')]
-    for notebook in notebooks:
+    # Get the changed notebooks
+    changed_notebooks = get_changed_notebooks()
+    
+    for notebook in changed_notebooks:
         notebook_path = os.path.join(notebook_dir, notebook)
-        subprocess.run([
-            "jupyter", "nbconvert", "--to", "markdown", "--execute", 
-            notebook_path, "--output-dir", converted_notebooks_dir
-        ])
+        if os.path.exists(notebook_path):
+            subprocess.run([
+                "jupyter", "nbconvert", "--to", "markdown", "--execute", 
+                notebook_path, "--output-dir", converted_notebooks_dir
+            ])
+        else:
+            print(f'Notebook {notebook} does not exist in {notebook_dir}.')
 
 # Step 3: Move all files from converted_notebooks to _posts directory
 def move_converted_files(converted_notebooks_dir, posts_dir):
