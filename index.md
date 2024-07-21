@@ -7,23 +7,20 @@ profile:
 published: true
 ---
 
-### Hey there! 
-I'm Thomas and I love to learn new things.
-This is my academic portfolio, so feel free to explore my research interests.
+### Welcome!
 
-Currently, I pursue a PhD in physics at the [Max Planck Institute for Multidisciplinary Sciences](https://www.mpinat.mpg.de/de) in Göttingen and [Heidelberg University](https://www.uni-heidelberg.de/en).
-Joining the group of [Stefan Hell](https://www.mpinat.mpg.de/de/hell), I develop new methods for sub-diffraction scale microscopy.
+I’m Thomas, a passionate learner and researcher. You've found my academic portfolio, where you can explore my research interests and accomplishments.
 
-I graduated in Physics and Philosophy (Hannover) and was fortunate to spend time at CERN, Stanford University and Universitetet i Agder during my studies.
+Currently, I am pursuing a PhD in physics at the [Max Planck Institute for Multidisciplinary Sciences](https://www.mpinat.mpg.de/de) in Göttingen and [Heidelberg University](https://www.uni-heidelberg.de/en). As a member of [Stefan Hell's](https://www.mpinat.mpg.de/de/hell) group, I focus on developing innovative methods for sub-diffraction scale microscopy.
 
-My general research interest is in the field of novel imaging methods, (quantum) metrology and applied quantum information:
-*How do quantum mechanical properties affect the extraction, communication and processing of information?* 
+I hold graduate degrees in Physics and in Philosophy of Science from Hannover, and I have had the privilege of studying at CERN, Stanford University, and Universitetet i Agder.
 
-Besides my work in physics, I am interested in philosophy. 
-Having studied philosophy of science allows me to broaden my view beyond my subject and to discover the links between science and the socio-political context.
+My primary research interests lie in novel imaging methods, quantum metrology, and applied quantum information. I am particularly fascinated by how quantum mechanical properties influence the extraction, communication, and processing of information.
 
+In addition to my work in physics, I have a strong interest in philosophy. Studying the philosophy of science has broadened my perspective, allowing me to explore the intersections between science and its socio-political context.
+
+Feel free to explore my site and learn more about my work and interests.
 
 ### Also, check out:
 
 - [autoCV](https://github.com/jitinnair1/autocv) - a LaTeX template that builds and deploys the CV using GitHub Actions, so you will always have a ready link for your latest CV
-- [Tail](https://github.com/jitinnair1/tail) - a minimal, quick-setup template for a blog
