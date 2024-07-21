@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shutil
+import re
 
 # Step 1: Find the GitHub repository root
 def find_git_root(path):
@@ -39,14 +40,41 @@ def convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir):
         else:
             print(f'Notebook {notebook} does not exist in {notebook_dir}.')
 
-# Step 3: Move all files from converted_notebooks to _posts directory
-def move_converted_files(converted_notebooks_dir, posts_dir):
+# Step 3: Update image paths in Markdown files
+def update_image_paths_in_markdown(markdown_file, images_dir):
+    with open(markdown_file, 'r') as file:
+        content = file.read()
+    
+    # Regular expression to find image paths
+    pattern = re.compile(r'!\[.*?\]\((.*?)\)')
+    
+    def replace_path(match):
+        old_path = match.group(1)
+        filename = os.path.basename(old_path)
+        new_path = os.path.join(images_dir, filename)
+        return f'![{filename}]({new_path})'
+    
+    updated_content = pattern.sub(replace_path, content)
+
+    with open(markdown_file, 'w') as file:
+        file.write(updated_content)
+
+# Step 4: Move all files from converted_notebooks to appropriate directories
+def move_converted_files(converted_notebooks_dir, posts_dir, images_dir):
     if not os.path.exists(posts_dir):
         os.makedirs(posts_dir)
+    if not os.path.exists(images_dir):
+        os.makedirs(images_dir)
     
     for item in os.listdir(converted_notebooks_dir):
         source = os.path.join(converted_notebooks_dir, item)
-        destination = os.path.join(posts_dir, item)
+        if item.endswith('.md'):
+            destination = os.path.join(posts_dir, item)
+            # Update image paths in the Markdown file
+            update_image_paths_in_markdown(source, images_dir)
+        else:
+            destination = os.path.join(images_dir, item)
+        
         if os.path.exists(destination):
             if os.path.isdir(destination):
                 shutil.rmtree(destination)
@@ -54,7 +82,7 @@ def move_converted_files(converted_notebooks_dir, posts_dir):
                 os.remove(destination)
         shutil.move(source, destination)
 
-# Step 4: Commit and push changes to GitHub Pages repository
+# Step 5: Commit and push changes to GitHub Pages repository
 def update_github_pages_repo(github_repo_dir):
     subprocess.run(["git", "add", "."], cwd=github_repo_dir)
     subprocess.run(["git", "commit", "-m", "Add converted Jupyter notebooks as markdown"], cwd=github_repo_dir)
@@ -65,8 +93,9 @@ github_repo_dir = find_git_root(current_dir)
 notebook_dir = os.path.join(github_repo_dir, "_src/notebooks")  # Adjust as needed
 converted_notebooks_dir = os.path.join(github_repo_dir, "_src/notebooks/converted")
 
-markdown_dir = os.path.join(github_repo_dir, "_posts")
+posts_dir = os.path.join(github_repo_dir, "_posts")
+images_dir = "assets/images"  # Relative path for Markdown files
 
-convert_notebooks_to_markdown(notebook_dir,converted_notebooks_dir)
-move_converted_files(converted_notebooks_dir, markdown_dir)
+convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir)
+move_converted_files(converted_notebooks_dir, posts_dir, images_dir)
 update_github_pages_repo(github_repo_dir)
