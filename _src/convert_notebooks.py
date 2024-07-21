@@ -39,14 +39,20 @@ def convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir):
         else:
             print(f'Notebook {notebook} does not exist in {notebook_dir}.')
 
-# Step 3: Move all files from converted_notebooks to _posts directory
-def move_converted_files(converted_notebooks_dir, posts_dir):
+# Step 3: Move all files from converted_notebooks to appropriate directories
+def move_converted_files(converted_notebooks_dir, posts_dir, images_dir):
     if not os.path.exists(posts_dir):
         os.makedirs(posts_dir)
+    if not os.path.exists(images_dir):
+        os.makedirs(images_dir)
     
     for item in os.listdir(converted_notebooks_dir):
         source = os.path.join(converted_notebooks_dir, item)
-        destination = os.path.join(posts_dir, item)
+        if item.endswith('.md'):
+            destination = os.path.join(posts_dir, item)
+        else:
+            destination = os.path.join(images_dir, item)
+        
         if os.path.exists(destination):
             if os.path.isdir(destination):
                 shutil.rmtree(destination)
@@ -65,8 +71,9 @@ github_repo_dir = find_git_root(current_dir)
 notebook_dir = os.path.join(github_repo_dir, "_src/notebooks")  # Adjust as needed
 converted_notebooks_dir = os.path.join(github_repo_dir, "_src/notebooks/converted")
 
-markdown_dir = os.path.join(github_repo_dir, "_posts")
+posts_dir = os.path.join(github_repo_dir, "_posts")
+images_dir = os.path.join(github_repo_dir, "assets/images")
 
-convert_notebooks_to_markdown(notebook_dir,converted_notebooks_dir)
-move_converted_files(converted_notebooks_dir, markdown_dir)
+convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir)
+move_converted_files(converted_notebooks_dir, posts_dir, images_dir)
 update_github_pages_repo(github_repo_dir)
