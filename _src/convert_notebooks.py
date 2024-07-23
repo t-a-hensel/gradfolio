@@ -96,7 +96,7 @@ notebook_dir = os.path.join(github_repo_dir, "_src/notebooks")  # Adjust as need
 converted_notebooks_dir = os.path.join(github_repo_dir, "_src/notebooks/converted")
 
 posts_dir = os.path.join(github_repo_dir, "_posts")
-images_dir = "assets/images/posts/"  # Relative path for Markdown files
+images_dir = "../assets/images/posts/"  # Relative path for Markdown files (in _posts) to images (in assets/images/posts/)
 
 convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir)
 move_converted_files(converted_notebooks_dir, posts_dir, images_dir)
