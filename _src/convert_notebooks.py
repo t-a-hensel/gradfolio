@@ -44,6 +44,10 @@ def convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir):
 def update_image_paths_in_markdown(markdown_file, images_dir):
     with open(markdown_file, 'r') as file:
         content = file.read()
+
+    # Extract title from the Markdown content
+    title_match = re.search(r'^#\s+(.*)', content, re.MULTILINE)
+    title = title_match.group(1) if title_match else "Untitled Post"
     
     # Regular expression to find image paths
     pattern = re.compile(r'!\[.*?\]\((.*?)\)')
@@ -56,8 +60,12 @@ def update_image_paths_in_markdown(markdown_file, images_dir):
     
     updated_content = pattern.sub(replace_path, content)
 
+    # Prepend the text with the title to the content
+    prepend_text = f"---\nlayout: post\ntitle: {title}\n---\n\n"
+    final_content = prepend_text + updated_content
+
     with open(markdown_file, 'w') as file:
-        file.write(updated_content)
+        file.write(final_content)
 
 # Step 4: Move all files from converted_notebooks to appropriate directories
 def move_converted_files(converted_notebooks_dir, posts_dir, images_dir):
