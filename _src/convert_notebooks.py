@@ -71,7 +71,9 @@ def move_converted_files(converted_notebooks_dir, posts_dir, images_dir):
         if item.endswith('.md'):
             destination = os.path.join(posts_dir, item)
             # Update image paths in the Markdown file
-            update_image_paths_in_markdown(source, images_dir)
+            notebook_files_dir = os.path.splitext(item)[0] + '_files/'
+            new_images_dir = os.path.join(images_dir, notebook_files_dir)
+            update_image_paths_in_markdown(source, new_images_dir)
         else:
             destination = os.path.join(images_dir, item)
         
@@ -94,7 +96,7 @@ notebook_dir = os.path.join(github_repo_dir, "_src/notebooks")  # Adjust as need
 converted_notebooks_dir = os.path.join(github_repo_dir, "_src/notebooks/converted")
 
 posts_dir = os.path.join(github_repo_dir, "_posts")
-images_dir = "assets/images"  # Relative path for Markdown files
+images_dir = "assets/images/posts/"  # Relative path for Markdown files
 
 convert_notebooks_to_markdown(notebook_dir, converted_notebooks_dir)
 move_converted_files(converted_notebooks_dir, posts_dir, images_dir)
